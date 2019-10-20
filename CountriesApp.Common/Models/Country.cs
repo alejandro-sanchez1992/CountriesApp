@@ -19,7 +19,7 @@ namespace CountriesApp.Common.Models
         public string Alpha3Code { get; set; }
 
         [JsonProperty("callingCodes")]
-        public List<long> CallingCodes { get; set; }
+        public List<string> CallingCodes { get; set; }
 
         [JsonProperty("capital")]
         public string Capital { get; set; }

@@ -6,7 +6,7 @@ namespace CountriesApp.Common.Services
 {
     public interface IApiService
     {
-        Task<bool> CheckConnection(string url);
+        Task<Response<object>> CheckConnection(string url);
 
 
         Task<Response<object>> GetListAsync<T>(
