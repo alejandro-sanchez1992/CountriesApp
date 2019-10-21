@@ -11,14 +11,32 @@
 
     public class ApiService : IApiService
     {
-        public async Task<bool> CheckConnection(string url)
+        public async Task<Response<object>> CheckConnection(string url)
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
-                return false;
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = "Please turn on your internet settings.",
+                };
             }
 
-            return await CrossConnectivity.Current.IsRemoteReachable(url);
+            var isReachable = await CrossConnectivity.Current.IsRemoteReachable(url);
+            if (!isReachable)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = "Check you internet connection.",
+                };
+            }
+
+            return new Response<object>
+            {
+                IsSuccess = true,
+                Message = "Ok",
+            };
         }
 
         public async Task<Response<object>> GetListAsync<T>(
