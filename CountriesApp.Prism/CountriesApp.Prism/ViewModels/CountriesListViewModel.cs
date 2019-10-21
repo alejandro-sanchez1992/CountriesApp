@@ -7,6 +7,7 @@ using CountriesApp.Common.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace CountriesApp.Prism.ViewModels
 {
@@ -29,23 +30,33 @@ namespace CountriesApp.Prism.ViewModels
             _navigationService = navigationService;
 
             Title = "Countries List";
-            this.GetCountries();
+            GetCountries();
         }
 
         public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(GetCountries));
 
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(Search));
 
+        public Assembly SvgAssembly
+        {
+            get => typeof(App).GetTypeInfo().Assembly; 
+        }
+
+        public string CoolMaskSvgPath
+        {
+            get => "CountriesApp.Prism.Images.CoolMask.svg";
+        }
+
         public bool IsRunning
         {
             get => _isRunning;
-            set => SetProperty(ref _isRunning, value);
+            set => SetValue(ref _isRunning, value);
         }
 
         public bool IsRefreshing
         {
             get => _isRefreshing;
-            set => SetProperty(ref _isRefreshing, value);
+            set => SetValue(ref _isRefreshing, value);
         }
 
         public string Filter
@@ -53,20 +64,20 @@ namespace CountriesApp.Prism.ViewModels
             get => _filter;
             set
             {
-                SetProperty(ref _filter, value);
-                this.Search();
+                SetValue(ref _filter, value);
+                Search();
             }
         }
 
         public ObservableCollection<CountryItemViewModel> Countries
         {
             get => _countries;
-            set => SetProperty(ref _countries, value);
+            set => SetValue(ref _countries, value);
         }
 
         private async void GetCountries()
         {
-            IsRunning = true;
+            IsRefreshing = true;
 
             var url = Application.Current.Resources["UrlAPI"].ToString();
 
@@ -98,9 +109,9 @@ namespace CountriesApp.Prism.ViewModels
             }
 
             MainViewModel.GetInstance().CountriesList = (List<Country>)response.Result;
-            this.Countries = new ObservableCollection<CountryItemViewModel>(this.ToCountryItemViewModel());
+            this.Countries = new ObservableCollection<CountryItemViewModel>(ToCountryItemViewModel());
 
-            IsRunning = false;
+            IsRefreshing = false;
         }
 
         private IEnumerable<CountryItemViewModel> ToCountryItemViewModel()
@@ -138,12 +149,12 @@ namespace CountriesApp.Prism.ViewModels
         {
             if (string.IsNullOrEmpty(Filter))
             {
-                this.Countries = new ObservableCollection<CountryItemViewModel>(this.ToCountryItemViewModel());
+                this.Countries = new ObservableCollection<CountryItemViewModel>(ToCountryItemViewModel());
             }
             else
             {
                 this.Countries = new ObservableCollection<CountryItemViewModel>(
-                    this.ToCountryItemViewModel().Where(
+                    ToCountryItemViewModel().Where(
                         l => l.Name.ToLower().Contains(this.Filter.ToLower()) ||
                              l.Capital.ToLower().Contains(this.Filter.ToLower())));
             }

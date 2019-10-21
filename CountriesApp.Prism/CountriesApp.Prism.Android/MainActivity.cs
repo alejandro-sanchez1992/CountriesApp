@@ -6,6 +6,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using FFImageLoading.Forms.Platform;
+using SVG.Forms.Plugin.Droid;
+using FFImageLoading.Svg.Forms;
 
 namespace CountriesApp.Prism.Droid
 {
@@ -21,6 +24,9 @@ namespace CountriesApp.Prism.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            CachedImageRenderer.Init(true);
+            var ignore = typeof(SvgCachedImage);
+            SvgImageRenderer.Init();
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

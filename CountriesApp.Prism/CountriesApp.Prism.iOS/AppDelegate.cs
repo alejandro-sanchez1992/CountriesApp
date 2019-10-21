@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using FFImageLoading.Forms.Platform;
+using FFImageLoading.Svg.Forms;
 using Foundation;
+using SVG.Forms.Plugin.iOS;
 using UIKit;
 
 namespace CountriesApp.Prism.iOS
@@ -23,6 +25,9 @@ namespace CountriesApp.Prism.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            CachedImageRenderer.Init();
+            SvgImageRenderer.Init();
+            var ignore = typeof(SvgCachedImage);
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
