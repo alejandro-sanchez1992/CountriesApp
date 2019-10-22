@@ -42,11 +42,6 @@ namespace CountriesApp.Prism.ViewModels
             get => typeof(App).GetTypeInfo().Assembly; 
         }
 
-        public string CoolMaskSvgPath
-        {
-            get => "CountriesApp.Prism.Images.CoolMask.svg";
-        }
-
         public bool IsRunning
         {
             get => _isRunning;
@@ -116,7 +111,7 @@ namespace CountriesApp.Prism.ViewModels
 
         private IEnumerable<CountryItemViewModel> ToCountryItemViewModel()
         {
-            return MainViewModel.GetInstance().CountriesList.Select(l => new CountryItemViewModel
+            return MainViewModel.GetInstance().CountriesList.Select(l => new CountryItemViewModel(_navigationService)
             {
                 Alpha2Code = l.Alpha2Code,
                 Alpha3Code = l.Alpha3Code,

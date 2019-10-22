@@ -25,10 +25,12 @@ namespace CountriesApp.Prism
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IApiService, ApiService>();
-            //containerRegistry.Register<IGeolocatorService, GeolocatorService>();
+            containerRegistry.Register<IGeolocatorService, GeolocatorService>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<CountriesListPage, CountriesListViewModel>();
             containerRegistry.RegisterForNavigation<CountryItemPage, CountryItemViewModel>();
+            containerRegistry.RegisterForNavigation<CountryDataPage, CountryDataViewModel>();
+            containerRegistry.RegisterForNavigation<CountryMapPage, CountryMapViewModel>();
         }
     }
 }
