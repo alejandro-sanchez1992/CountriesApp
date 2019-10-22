@@ -21,7 +21,7 @@ namespace CountriesApp.Prism.ViewModels
             set;
         }
 
-        public CountryViewModel Country
+        public CountryDataViewModel Country
         {
             get;
             set;
